@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BierzTo Merch | Sklep</title>
     <style>
-        /* CSS - Odpowiada za wygląd "Liquid Glass" */
+        /* CSS - Liquid Glass Effect */
         :root {
             --glass: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.08);
@@ -13,14 +13,13 @@
         }
 
         body {
-            background-color: #000; /* Głęboka czerń */
+            background-color: #000;
             color: white;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             margin: 0;
             overflow-x: hidden;
         }
 
-        /* Rozmyte tło */
         .bg-blur {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -28,7 +27,7 @@
             z-index: -1;
         }
 
-        /* Nawigacja iOS Style */
+        /* iOS Style Navigation */
         nav {
             position: fixed;
             top: 20px;
@@ -37,7 +36,7 @@
             width: 90%;
             max-width: 500px;
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px); /* Efekt szkła */
+            backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
             border-radius: 30px;
@@ -55,32 +54,33 @@
             text-align: center;
         }
 
-        /* Twoje logo */
         .main-logo {
             width: 280px;
             filter: drop-shadow(0 0 15px rgba(255,255,255,0.2));
             margin-bottom: 20px;
         }
 
-        /* Kontener na produkty */
+        /* Grid na 5 produktów */
         .shop-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
             width: 90%;
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 60px auto;
         }
 
-        /* KARTA PRODUKTU - To kopiujesz, żeby dodać item */
         .product-card {
             background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 24px;
             padding: 20px;
             text-align: center;
-            backdrop-filter: blur(10px);
+            墜ackdrop-filter: blur(10px);
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .product-card:hover {
@@ -89,23 +89,28 @@
             box-shadow: var(--glow);
         }
 
-        .product-img {
+        /* Kontener na grafikę produktu */
+        .product-img-container {
             width: 100%;
             aspect-ratio: 1/1;
             background: rgba(255,255,255,0.02);
             border-radius: 18px;
             margin-bottom: 15px;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            color: #444;
+        }
+
+        .product-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Grafika ładnie wypełnia kwadrat */
         }
 
         h2 { font-size: 1.2rem; margin: 10px 0; font-weight: 500; }
         .price { font-size: 1.1rem; color: #888; margin-bottom: 20px; }
 
-        /* Przyciski iOS Style */
         .buy-btn {
             background: #fff;
             color: #000;
@@ -118,6 +123,93 @@
             transition: 0.3s;
         }
 
+        .buy-btn:hover {
+            background: #e0e0e0;
+            box-shadow: 0 5px 15px rgba(255,255,255,0.2);
+        }
+
+        .about {
+            max-width: 700px;
+            margin: 100px auto;
+            text-align: center;
+            padding: 40px;
+            background: var(--glass);
+            border-radius: 30px;
+            border: 1px solid var(--glass-border);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-blur"></div>
+
+    <nav>
+        <a href="#merch">Merch</a>
+        <a href="#about">O nas</a>
+        <a href="#">Koszyk</a>
+    </nav>
+
+    <header>
+        <img src="logo.png" alt="BierzTo Logo" class="main-logo">
+    </header>
+
+    <div class="shop-container" id="merch">
+        
+        <div class="product-card">
+            <div class="product-img-container">
+                <img src="produkt1.png" alt="Produkt 1">
+            </div>
+            <h2>Bluza Classic BT</h2>
+            <div class="price">199.00 PLN</div>
+            <button class="buy-btn">Dodaj do koszyka</button>
+        </div>
+
+        <div class="product-card">
+            <div class="product-img-container">
+                <img src="produkt2.png" alt="Produkt 2">
+            </div>
+            <h2>Hoodie Liquid Glass</h2>
+            <div class="price">249.00 PLN</div>
+            <button class="buy-btn">Dodaj do koszyka</button>
+        </div>
+
+        <div class="product-card">
+            <div class="product-img-container">
+                <img src="produkt3.png" alt="Produkt 3">
+            </div>
+            <h2>T-shirt Oversize</h2>
+            <div class="price">129.00 PLN</div>
+            <button class="buy-btn">Dodaj do koszyka</button>
+        </div>
+
+        <div class="product-card">
+            <div class="product-img-container">
+                <img src="produkt4.png" alt="Produkt 4">
+            </div>
+            <h2>Czapka Beanie BT</h2>
+            <div class="price">89.00 PLN</div>
+            <button class="buy-btn">Dodaj do koszyka</button>
+        </div>
+
+        <div class="product-card">
+            <div class="product-img-container">
+                <img src="produkt5.png" alt="Produkt 5">
+            </div>
+            <h2>Akcesorium Limited</h2>
+            <div class="price">59.00 PLN</div>
+            <button class="buy-btn">Dodaj do koszyka</button>
+        </div>
+
+    </div>
+
+    <div class="about" id="about">
+        <img src="banner.png" alt="Banner" style="width: 150px; margin-bottom: 20px;">
+        <h2>O marce</h2>
+        <p>BierzTo to nie tylko ubrania, to styl życia. Nasz merch to limitowane dropy dla tych, którzy wiedzą co dobre.</p>
+    </div>
+
+</body>
+</html>
         .buy-btn:hover {
             background: #e0e0e0;
             box-shadow: 0 5px 15px rgba(255,255,255,0.2);
