@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BierzTo Merch | Sklep</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="bg-blur"></div>
+
+    <nav>
+        <a href="#merch">Merch</a>
+        <a href="#about">O nas</a>
+        <a onclick="toggleCart()">Koszyk (<span id="cart-count">0</span>)</a>
+    </nav>
+
+    <header>
+        <img src="assets/img/logo.png" alt="BierzTo Logo" class="main-logo">
+    </header>
+
+    <div class="shop-container" id="merch-grid"></div>
+
+    <div class="about" id="about">
+        <img src="assets/img/banner.png" alt="Banner" style="width: 150px; margin-bottom: 20px;">
+        <h2>O marce</h2>
+        <p>BierzTo to nie tylko ubrania, to styl życia.</p>
+    </div>
+
+    <div id="product-modal" class="modal-overlay" onclick="closeProductModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeProductModal()">&times;</span>
+            <div class="modal-gallery">
+                <div class="main-img-view"><img id="modal-main-img" src="" alt=""></div>
+                <div class="thumbnail-grid" id="modal-thumbnails"></div>
+            </div>
+            <div class="modal-info">
+                <h2 id="modal-title"></h2>
+                <div class="price" id="modal-price"></div>
+                <p style="margin-bottom:10px; color:#aaa;">Wybierz rozmiar:</p>
+                <div class="size-selector" id="modal-sizes"></div>
+                <button class="buy-btn" id="modal-buy-btn">Dodaj do koszyka</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header"><h2>Twój Koszyk</h2><span onclick="toggleCart()" style="cursor:pointer; font-size:24px;">&times;</span></div>
+        <div id="cart-items" class="cart-items"></div>
+        <div class="cart-footer">
+            <h3>Suma: <span id="cart-total">0.00</span> PLN</h3>
+            <button class="buy-btn">Przejdź do płatności</button>
+        </div>
+    </div>
+
+    <script src="js/products.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
