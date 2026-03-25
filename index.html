@@ -10,6 +10,7 @@
             --glass: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.08);
             --glow: 0 0 20px rgba(255, 255, 255, 0.15);
+            --glass-panel: rgba(20, 20, 20, 0.6);
         }
 
         body {
@@ -46,7 +47,7 @@
             z-index: 1000;
         }
 
-        nav a { color: white; text-decoration: none; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; transition: 0.3s; }
+        nav a { color: white; text-decoration: none; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; transition: 0.3s; cursor: pointer; }
         nav a:hover { opacity: 1; text-shadow: 0 0 10px #fff; }
 
         header {
@@ -76,11 +77,13 @@
             border-radius: 24px;
             padding: 20px;
             text-align: center;
-            墜ackdrop-filter: blur(10px);
+            backdrop-filter: blur(10px); /* Poprawiona literówka */
+            -webkit-backdrop-filter: blur(10px);
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            cursor: pointer;
         }
 
         .product-card:hover {
@@ -89,7 +92,6 @@
             box-shadow: var(--glow);
         }
 
-        /* Kontener na grafikę produktu */
         .product-img-container {
             width: 100%;
             aspect-ratio: 1/1;
@@ -105,7 +107,7 @@
         .product-img-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Grafika ładnie wypełnia kwadrat */
+            object-fit: cover;
         }
 
         h2 { font-size: 1.2rem; margin: 10px 0; font-weight: 500; }
@@ -137,6 +139,196 @@
             border-radius: 30px;
             border: 1px solid var(--glass-border);
         }
+
+        /* ------------------------------------- */
+        /* NOWE STYLE: PANEL PRODUKTU (MODAL)    */
+        /* ------------------------------------- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: var(--glass-panel);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            width: 90%;
+            max-width: 900px;
+            padding: 30px;
+            position: relative;
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 28px;
+            color: #fff;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: 0.3s;
+            z-index: 10;
+        }
+
+        .close-btn:hover { opacity: 1; text-shadow: 0 0 10px #fff; }
+
+        .modal-gallery {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .main-img-view {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background: rgba(255,255,255,0.02);
+            border-radius: 18px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .main-img-view img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+
+        .thumbnail-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .thumbnail-grid img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: 0.2s;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .thumbnail-grid img:hover, .thumbnail-grid img.active-thumb {
+            border-color: #fff;
+            box-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+
+        .modal-info {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .modal-info h2 { font-size: 2rem; margin-bottom: 5px; }
+        .modal-info .price { font-size: 1.5rem; color: #aaa; margin-bottom: 30px; }
+        
+        /* ------------------------------------- */
+        /* NOWE STYLE: KOSZYK (SIDEBAR)          */
+        /* ------------------------------------- */
+        .cart-sidebar {
+            position: fixed;
+            top: 0; right: -400px;
+            width: 100%; max-width: 400px;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-left: 1px solid var(--glass-border);
+            z-index: 3000;
+            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            padding: 30px 20px;
+            box-sizing: border-box;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .cart-header h2 { margin: 0; font-size: 1.5rem; }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255,255,255,0.02);
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .cart-item img {
+            width: 60px; height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .cart-item-info { flex: 1; }
+        .cart-item-info h4 { margin: 0 0 5px 0; font-size: 1rem; font-weight: 500;}
+        .cart-item-info p { margin: 0; color: #888; font-size: 0.9rem;}
+        
+        .remove-item {
+            color: #ff4d4d;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .cart-footer {
+            border-top: 1px solid var(--glass-border);
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        .cart-footer h3 {
+            display: flex;
+            justify-content: space-between;
+            margin: 0 0 20px 0;
+        }
     </style>
 </head>
 <body>
@@ -146,67 +338,205 @@
     <nav>
         <a href="#merch">Merch</a>
         <a href="#about">O nas</a>
-        <a href="#">Koszyk</a>
+        <a onclick="toggleCart()">Koszyk (<span id="cart-count">0</span>)</a>
     </nav>
 
     <header>
-        <img src="logo.png" alt="BierzTo Logo" class="main-logo">
+        <h1 class="main-logo" style="font-size: 3rem; margin: 0 auto;">BierzTo</h1>
     </header>
 
     <div class="shop-container" id="merch">
         
-        <div class="product-card">
+        <div class="product-card" onclick="openProductModal('Bluza Classic BT', 199.00, 'produkt1.png', 'a')">
             <div class="product-img-container">
                 <img src="produkt1.png" alt="Produkt 1">
             </div>
             <h2>Bluza Classic BT</h2>
             <div class="price">199.00 PLN</div>
-            <button class="buy-btn">Dodaj do koszyka</button>
+            <button class="buy-btn" onclick="event.stopPropagation(); addToCart('Bluza Classic BT', 199.00, 'produkt1.png')">Dodaj do koszyka</button>
         </div>
 
-        <div class="product-card">
+        <div class="product-card" onclick="openProductModal('Hoodie Liquid Glass', 249.00, 'produkt2.png', 'b')">
             <div class="product-img-container">
                 <img src="produkt2.png" alt="Produkt 2">
             </div>
             <h2>Hoodie Liquid Glass</h2>
             <div class="price">249.00 PLN</div>
-            <button class="buy-btn">Dodaj do koszyka</button>
+            <button class="buy-btn" onclick="event.stopPropagation(); addToCart('Hoodie Liquid Glass', 249.00, 'produkt2.png')">Dodaj do koszyka</button>
         </div>
 
-        <div class="product-card">
+        <div class="product-card" onclick="openProductModal('T-shirt Oversize', 129.00, 'produkt3.png', 'c')">
             <div class="product-img-container">
                 <img src="produkt3.png" alt="Produkt 3">
             </div>
             <h2>T-shirt Oversize</h2>
             <div class="price">129.00 PLN</div>
-            <button class="buy-btn">Dodaj do koszyka</button>
+            <button class="buy-btn" onclick="event.stopPropagation(); addToCart('T-shirt Oversize', 129.00, 'produkt3.png')">Dodaj do koszyka</button>
         </div>
 
-        <div class="product-card">
+        <div class="product-card" onclick="openProductModal('Czapka Beanie BT', 89.00, 'produkt4.png', 'd')">
             <div class="product-img-container">
                 <img src="produkt4.png" alt="Produkt 4">
             </div>
             <h2>Czapka Beanie BT</h2>
             <div class="price">89.00 PLN</div>
-            <button class="buy-btn">Dodaj do koszyka</button>
+            <button class="buy-btn" onclick="event.stopPropagation(); addToCart('Czapka Beanie BT', 89.00, 'produkt4.png')">Dodaj do koszyka</button>
         </div>
 
-        <div class="product-card">
+        <div class="product-card" onclick="openProductModal('Akcesorium Limited', 59.00, 'produkt5.png', 'e')">
             <div class="product-img-container">
                 <img src="produkt5.png" alt="Produkt 5">
             </div>
             <h2>Akcesorium Limited</h2>
             <div class="price">59.00 PLN</div>
-            <button class="buy-btn">Dodaj do koszyka</button>
+            <button class="buy-btn" onclick="event.stopPropagation(); addToCart('Akcesorium Limited', 59.00, 'produkt5.png')">Dodaj do koszyka</button>
         </div>
 
     </div>
 
     <div class="about" id="about">
-        <img src="banner.png" alt="Banner" style="width: 150px; margin-bottom: 20px;">
         <h2>O marce</h2>
         <p>BierzTo to nie tylko ubrania, to styl życia. Nasz merch to limitowane dropy dla tych, którzy wiedzą co dobre.</p>
     </div>
 
+    <div id="product-modal" class="modal-overlay" onclick="closeProductModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="closeProductModal()">&times;</span>
+            
+            <div class="modal-gallery">
+                <div class="main-img-view">
+                    <img id="modal-main-img" src="" alt="Main Product Image">
+                </div>
+                <div class="thumbnail-grid" id="modal-thumbnails">
+                    </div>
+            </div>
+
+            <div class="modal-info">
+                <h2 id="modal-title">Nazwa Produktu</h2>
+                <div class="price" id="modal-price">0.00 PLN</div>
+                <button class="buy-btn" id="modal-buy-btn" onclick="">Dodaj do koszyka</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h2>Twój Koszyk</h2>
+            <span class="close-btn" style="position: static;" onclick="toggleCart()">&times;</span>
+        </div>
+        <div id="cart-items" class="cart-items">
+            </div>
+        <div class="cart-footer">
+            <h3>Suma: <span id="cart-total">0.00</span> PLN</h3>
+            <button class="buy-btn">Przejdź do płatności</button>
+        </div>
+    </div>
+
+    <script>
+        // --- LOGIKA MODALA PRODUKTU ---
+        function openProductModal(title, price, mainImg, letter) {
+            const modal = document.getElementById('product-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalPrice = document.getElementById('modal-price');
+            const modalMainImg = document.getElementById('modal-main-img');
+            const modalThumbnails = document.getElementById('modal-thumbnails');
+            const modalBuyBtn = document.getElementById('modal-buy-btn');
+
+            // Ustawianie podstawowych informacji
+            modalTitle.innerText = title;
+            modalPrice.innerText = price.toFixed(2) + ' PLN';
+            modalMainImg.src = mainImg;
+
+            // Ustawianie akcji dla przycisku "Dodaj do koszyka" wewnątrz modala
+            modalBuyBtn.onclick = function() {
+                addToCart(title, price, mainImg);
+                closeProductModal(); // Opcjonalnie: zamyka modal po dodaniu do koszyka
+                toggleCart();        // Opcjonalnie: od razu otwiera koszyk
+            };
+
+            // Generowanie 4 miniaturek (podglad-X1.png, podglad-X2.png itd.)
+            let thumbsHTML = '';
+            for(let i = 1; i <= 4; i++) {
+                let thumbSrc = `podglad-${letter}${i}.png`;
+                // Pierwsza miniaturka ma klasę active-thumb
+                let activeClass = i === 1 ? 'active-thumb' : ''; 
+                thumbsHTML += `<img src="${thumbSrc}" class="thumb-img ${activeClass}" onclick="changeMainImg(this, '${thumbSrc}')">`;
+            }
+            modalThumbnails.innerHTML = thumbsHTML;
+
+            // Pokazanie modala
+            modal.classList.add('active');
+        }
+
+        function closeProductModal(e) {
+            // Zamknij tylko jeśli kliknięto tło lub "X" (nie w sam biały kontener)
+            if(!e || e.target.id === 'product-modal' || e.type === 'click') {
+                document.getElementById('product-modal').classList.remove('active');
+            }
+        }
+
+        function changeMainImg(element, src) {
+            // Zmiana głownego zdjęcia
+            document.getElementById('modal-main-img').src = src;
+            
+            // Usunięcie podświetlenia z innych miniaturek i dodanie do klikniętej
+            const thumbs = document.querySelectorAll('.thumb-img');
+            thumbs.forEach(t => t.classList.remove('active-thumb'));
+            element.classList.add('active-thumb');
+        }
+
+
+        // --- LOGIKA KOSZYKA ---
+        let cart = [];
+
+        function toggleCart() {
+            document.getElementById('cart-sidebar').classList.toggle('open');
+        }
+
+        function addToCart(title, price, img) {
+            // Dodanie do tablicy
+            cart.push({ title, price, img });
+            updateCartUI();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            const cartCount = document.getElementById('cart-count');
+
+            // Aktualizacja licznika na nawigacji
+            cartCount.innerText = cart.length;
+
+            // Generowanie listy HTML
+            let itemsHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price;
+                itemsHTML += `
+                    <div class="cart-item">
+                        <img src="${item.img}" alt="${item.title}">
+                        <div class="cart-item-info">
+                            <h4>${item.title}</h4>
+                            <p>${item.price.toFixed(2)} PLN</p>
+                        </div>
+                        <button class="remove-item" onclick="removeFromCart(${index})">×</button>
+                    </div>
+                `;
+            });
+
+            if(cart.length === 0) {
+                itemsHTML = '<p style="text-align:center; color:#888;">Twój koszyk jest pusty.</p>';
+            }
+
+            cartItemsContainer.innerHTML = itemsHTML;
+            cartTotal.innerText = total.toFixed(2);
+        }
+    </script>
 </body>
 </html>
