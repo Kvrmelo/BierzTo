@@ -77,7 +77,7 @@
             border-radius: 24px;
             padding: 20px;
             text-align: center;
-            backdrop-filter: blur(10px); /* Poprawiona literówka */
+            backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
@@ -141,7 +141,7 @@
         }
 
         /* ------------------------------------- */
-        /* NOWE STYLE: PANEL PRODUKTU (MODAL)    */
+        /* PANEL PRODUKTU (MODAL)                */
         /* ------------------------------------- */
         .modal-overlay {
             position: fixed;
@@ -245,10 +245,39 @@
         }
 
         .modal-info h2 { font-size: 2rem; margin-bottom: 5px; }
-        .modal-info .price { font-size: 1.5rem; color: #aaa; margin-bottom: 30px; }
+        .modal-info .price { font-size: 1.5rem; color: #aaa; margin-bottom: 20px; }
         
+        /* Wybór rozmiaru */
+        .size-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .size-btn {
+            background: transparent;
+            color: #fff;
+            border: 1px solid var(--glass-border);
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .size-btn:hover {
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .size-btn.active-size {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+            box-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+
         /* ------------------------------------- */
-        /* NOWE STYLE: KOSZYK (SIDEBAR)          */
+        /* KOSZYK (SIDEBAR)                      */
         /* ------------------------------------- */
         .cart-sidebar {
             position: fixed;
@@ -308,7 +337,7 @@
 
         .cart-item-info { flex: 1; }
         .cart-item-info h4 { margin: 0 0 5px 0; font-size: 1rem; font-weight: 500;}
-        .cart-item-info p { margin: 0; color: #888; font-size: 0.9rem;}
+        .cart-item-info p { margin: 0; color: #888; font-size: 0.85rem;}
         
         .remove-item {
             color: #ff4d4d;
@@ -342,7 +371,7 @@
     </nav>
 
     <header>
-        <h1 class="main-logo" style="font-size: 3rem; margin: 0 auto;">BierzTo</h1>
+        <img src="logo.png" alt="BierzTo Logo" class="main-logo">
     </header>
 
     <div class="shop-container" id="merch">
@@ -353,7 +382,7 @@
             </div>
             <h2>Bluza Classic BT</h2>
             <div class="price">199.00 PLN</div>
-            <button class="buy-btn" onclick="event.stopPropagation(); addToCart('Bluza Classic BT', 199.00, 'produkt1.png')">Dodaj do koszyka</button>
+            <button class="buy-btn" onclick="event.stopPropagation(); addToCart('Bluza Classic BT', 199.00, 'produkt1.png', 'M')">Dodaj do koszyka</button>
         </div>
 
         <div class="product-card" onclick="openProductModal('Hoodie Liquid Glass', 249.00, 'produkt2.png', 'b')">
@@ -362,7 +391,7 @@
             </div>
             <h2>Hoodie Liquid Glass</h2>
             <div class="price">249.00 PLN</div>
-            <button class="buy-btn" onclick="event.stopPropagation(); addToCart('Hoodie Liquid Glass', 249.00, 'produkt2.png')">Dodaj do koszyka</button>
+            <button class="buy-btn" onclick="event.stopPropagation(); addToCart('Hoodie Liquid Glass', 249.00, 'produkt2.png', 'M')">Dodaj do koszyka</button>
         </div>
 
         <div class="product-card" onclick="openProductModal('T-shirt Oversize', 129.00, 'produkt3.png', 'c')">
@@ -371,7 +400,7 @@
             </div>
             <h2>T-shirt Oversize</h2>
             <div class="price">129.00 PLN</div>
-            <button class="buy-btn" onclick="event.stopPropagation(); addToCart('T-shirt Oversize', 129.00, 'produkt3.png')">Dodaj do koszyka</button>
+            <button class="buy-btn" onclick="event.stopPropagation(); addToCart('T-shirt Oversize', 129.00, 'produkt3.png', 'M')">Dodaj do koszyka</button>
         </div>
 
         <div class="product-card" onclick="openProductModal('Czapka Beanie BT', 89.00, 'produkt4.png', 'd')">
@@ -380,7 +409,7 @@
             </div>
             <h2>Czapka Beanie BT</h2>
             <div class="price">89.00 PLN</div>
-            <button class="buy-btn" onclick="event.stopPropagation(); addToCart('Czapka Beanie BT', 89.00, 'produkt4.png')">Dodaj do koszyka</button>
+            <button class="buy-btn" onclick="event.stopPropagation(); addToCart('Czapka Beanie BT', 89.00, 'produkt4.png', 'Uniw.')">Dodaj do koszyka</button>
         </div>
 
         <div class="product-card" onclick="openProductModal('Akcesorium Limited', 59.00, 'produkt5.png', 'e')">
@@ -389,12 +418,13 @@
             </div>
             <h2>Akcesorium Limited</h2>
             <div class="price">59.00 PLN</div>
-            <button class="buy-btn" onclick="event.stopPropagation(); addToCart('Akcesorium Limited', 59.00, 'produkt5.png')">Dodaj do koszyka</button>
+            <button class="buy-btn" onclick="event.stopPropagation(); addToCart('Akcesorium Limited', 59.00, 'produkt5.png', 'Uniw.')">Dodaj do koszyka</button>
         </div>
 
     </div>
 
     <div class="about" id="about">
+        <img src="banner.png" alt="Banner" style="width: 150px; margin-bottom: 20px;">
         <h2>O marce</h2>
         <p>BierzTo to nie tylko ubrania, to styl życia. Nasz merch to limitowane dropy dla tych, którzy wiedzą co dobre.</p>
     </div>
@@ -414,7 +444,16 @@
             <div class="modal-info">
                 <h2 id="modal-title">Nazwa Produktu</h2>
                 <div class="price" id="modal-price">0.00 PLN</div>
-                <button class="buy-btn" id="modal-buy-btn" onclick="">Dodaj do koszyka</button>
+                
+                <p style="margin: 0 0 10px 0; color: #aaa; font-size: 0.9rem;">Wybierz rozmiar:</p>
+                <div class="size-selector" id="modal-sizes">
+                    <button class="size-btn" onclick="selectSize('S')">S</button>
+                    <button class="size-btn active-size" onclick="selectSize('M')">M</button>
+                    <button class="size-btn" onclick="selectSize('L')">L</button>
+                    <button class="size-btn" onclick="selectSize('XL')">XL</button>
+                </div>
+
+                <button class="buy-btn" id="modal-buy-btn">Dodaj do koszyka</button>
             </div>
         </div>
     </div>
@@ -433,58 +472,61 @@
     </div>
 
     <script>
+        let currentSelectedSize = 'M'; // Domyślny rozmiar w modalu
+
         // --- LOGIKA MODALA PRODUKTU ---
         function openProductModal(title, price, mainImg, letter) {
             const modal = document.getElementById('product-modal');
-            const modalTitle = document.getElementById('modal-title');
-            const modalPrice = document.getElementById('modal-price');
-            const modalMainImg = document.getElementById('modal-main-img');
-            const modalThumbnails = document.getElementById('modal-thumbnails');
-            const modalBuyBtn = document.getElementById('modal-buy-btn');
+            
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-price').innerText = price.toFixed(2) + ' PLN';
+            document.getElementById('modal-main-img').src = mainImg;
 
-            // Ustawianie podstawowych informacji
-            modalTitle.innerText = title;
-            modalPrice.innerText = price.toFixed(2) + ' PLN';
-            modalMainImg.src = mainImg;
+            // Domyślny reset rozmiaru na 'M' po otwarciu nowego produktu
+            selectSize('M'); 
 
-            // Ustawianie akcji dla przycisku "Dodaj do koszyka" wewnątrz modala
-            modalBuyBtn.onclick = function() {
-                addToCart(title, price, mainImg);
-                closeProductModal(); // Opcjonalnie: zamyka modal po dodaniu do koszyka
-                toggleCart();        // Opcjonalnie: od razu otwiera koszyk
+            // Ustawienie akcji dla przycisku "Dodaj"
+            document.getElementById('modal-buy-btn').onclick = function() {
+                addToCart(title, price, mainImg, currentSelectedSize);
+                closeProductModal(); 
+                toggleCart();        
             };
 
-            // Generowanie 4 miniaturek (podglad-X1.png, podglad-X2.png itd.)
+            // Generowanie 4 miniaturek
             let thumbsHTML = '';
             for(let i = 1; i <= 4; i++) {
                 let thumbSrc = `podglad-${letter}${i}.png`;
-                // Pierwsza miniaturka ma klasę active-thumb
                 let activeClass = i === 1 ? 'active-thumb' : ''; 
                 thumbsHTML += `<img src="${thumbSrc}" class="thumb-img ${activeClass}" onclick="changeMainImg(this, '${thumbSrc}')">`;
             }
-            modalThumbnails.innerHTML = thumbsHTML;
+            document.getElementById('modal-thumbnails').innerHTML = thumbsHTML;
 
             // Pokazanie modala
             modal.classList.add('active');
         }
 
         function closeProductModal(e) {
-            // Zamknij tylko jeśli kliknięto tło lub "X" (nie w sam biały kontener)
             if(!e || e.target.id === 'product-modal' || e.type === 'click') {
                 document.getElementById('product-modal').classList.remove('active');
             }
         }
 
         function changeMainImg(element, src) {
-            // Zmiana głownego zdjęcia
             document.getElementById('modal-main-img').src = src;
-            
-            // Usunięcie podświetlenia z innych miniaturek i dodanie do klikniętej
             const thumbs = document.querySelectorAll('.thumb-img');
             thumbs.forEach(t => t.classList.remove('active-thumb'));
             element.classList.add('active-thumb');
         }
 
+        // --- LOGIKA WYBORU ROZMIARU ---
+        function selectSize(size) {
+            currentSelectedSize = size;
+            const buttons = document.querySelectorAll('.size-btn');
+            buttons.forEach(btn => btn.classList.remove('active-size'));
+            
+            // Dodanie klasy 'active-size' do klikniętego przycisku
+            event.target.classList.add('active-size');
+        }
 
         // --- LOGIKA KOSZYKA ---
         let cart = [];
@@ -493,9 +535,8 @@
             document.getElementById('cart-sidebar').classList.toggle('open');
         }
 
-        function addToCart(title, price, img) {
-            // Dodanie do tablicy
-            cart.push({ title, price, img });
+        function addToCart(title, price, img, size) {
+            cart.push({ title, price, img, size });
             updateCartUI();
         }
 
@@ -509,10 +550,8 @@
             const cartTotal = document.getElementById('cart-total');
             const cartCount = document.getElementById('cart-count');
 
-            // Aktualizacja licznika na nawigacji
             cartCount.innerText = cart.length;
 
-            // Generowanie listy HTML
             let itemsHTML = '';
             let total = 0;
 
@@ -523,7 +562,7 @@
                         <img src="${item.img}" alt="${item.title}">
                         <div class="cart-item-info">
                             <h4>${item.title}</h4>
-                            <p>${item.price.toFixed(2)} PLN</p>
+                            <p>${item.price.toFixed(2)} PLN | Rozmiar: <strong>${item.size}</strong></p>
                         </div>
                         <button class="remove-item" onclick="removeFromCart(${index})">×</button>
                     </div>
